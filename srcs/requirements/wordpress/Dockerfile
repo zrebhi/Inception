@@ -19,9 +19,10 @@ chown -R root:root /var/www/wordpress
 COPY conf/www.conf /etc/php/7.3/fpm/pool.d/www.conf
 
 #Install CLI to configure Wordpress with a script
-RUN wget https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar && \
-chmod +x wp-cli.phar && mv wp-cli.phar /usr/local/bin/wp
+RUN wget https://github.com/wp-cli/wp-cli-bundle/releases/download/v2.7.0/wp-cli-2.7.0.phar
+RUN chmod +x wp-cli-2.7.0.phar
+RUN mv wp-cli-2.7.0.phar /usr/local/bin/wp
 
 #Adds the script to our container and executes it
-COPY tools/wp_install.sh /var/
+COPY tools/wp_install.sh /var/wp_install.sh
 CMD ["bash", "/var/wp_install.sh"]

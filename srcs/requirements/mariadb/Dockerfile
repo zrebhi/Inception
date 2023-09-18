@@ -1,9 +1,9 @@
 FROM debian:buster
 
-ENV SQL_DATABASE=wp_example_db
-ENV SQL_USER=example_user
-ENV SQL_PASSWORD=example_password
-ENV SQL_ROOT_PASSWORD=example_password
+ARG SQL_DATABASE
+ARG SQL_USER
+ARG SQL_PASSWORD
+ARG SQL_ROOT_PASSWORD
 
 RUN apt update -y && \
     apt upgrade -y && \
@@ -22,7 +22,7 @@ COPY conf/50-server.cnf	/etc/mysql/mariadb.conf.d/50-server.cnf
 
 RUN service mysql start && \
 	mysql -u root -e "CREATE DATABASE IF NOT EXISTS $SQL_DATABASE; \
-	CREATE USER IF NOT EXISTS $SQL_USER @'localhost' IDENTIFIED BY '$SQL_PASSWORD'; \
+	CREATE USER IF NOT EXISTS $SQL_USER @'%' IDENTIFIED BY '$SQL_PASSWORD'; \
 	GRANT ALL PRIVILEGES ON $SQL_DATABASE.* TO $SQL_USER@'%' IDENTIFIED BY '$SQL_PASSWORD'; \
 	ALTER USER 'root'@'localhost' IDENTIFIED BY '$SQL_ROOT_PASSWORD'; \
 	FLUSH PRIVILEGES;" && \

@@ -1,6 +1,6 @@
 # Install WP
-if [ ! -f "${WP_PATH}/wp-config.php" ]; then
-
+export WP_FILE=$WP_PATH/wpconfig.php
+if [ ! -f $WP_FILE ]; then
   # Download Wordpress
   wp core download --path=$WP_PATH --allow-root
 
